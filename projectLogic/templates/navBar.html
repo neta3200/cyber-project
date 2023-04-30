@@ -3,10 +3,10 @@
     <div class="twelve columns header_nav" style="margin-bottom:0; box-shadow: none">
       <div class="twelve columns">
         <ul id="menu-header" class="nav-bar horizontal">
-          <li><a {% if pageName == 'login' %} class="active" {% endif %} href="/login">Login</a></li>
-          <li><a {% if pageName == 'register' %} class="active" {% endif %} href="/register">Register</a></li>
-          <li><a {% if pageName == 'forget' %} class="active" {% endif %} href="/forget">Forget Password?</a></li>
-          <li><a {% if pageName == 'about' %} class="active" {% endif %} href="/about">About</a></li>
+          <li {% if pageName == "login" %} class="active" {% endif %}><a href="/login">Login</a></li>
+          <li {% if pageName == "register" %} class="active" {% endif %}><a href="/register">Register</a></li>
+          <li {% if pageName == "forget" %} class="active" {% endif %}><a href="/forget">Forget Password?</a></li>
+          <li {% if pageName == "about" %} class="active" {% endif %}><a href="/about">About</a></li>
         </ul>
         <script>$('ul#menu-header').nav-bar();</script>
       </div>
