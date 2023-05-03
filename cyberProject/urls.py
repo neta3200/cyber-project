@@ -16,14 +16,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from projectLogic.views import login_request,registerPage,aboutPage,forgetPage
-from projectLogic import views
+"""from projectLogic.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq
+from projectLogic import views"""
+from users import views
+from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, customersPageReq, changePwdPageReq, logoutReq
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', login_request),
-    path('login/', login_request),
-    path('register/', registerPage),
-    path('about/', aboutPage),
-    path('forget/', forgetPage),
-
-]
+    path('', loginPageReq),
+    path('login/', loginPageReq),
+    path('register/', registerPageReq),
+    path('about/', aboutPageReq),
+    path('forget/', forgetPageReq),
+    path('customers/', customersPageReq),
+    path('changepwd/', changePwdPageReq),
+    path('logout/', logoutReq),
+    
+ ]
