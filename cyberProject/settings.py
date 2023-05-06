@@ -25,7 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'projectLogic',
+    'customers',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -107,8 +108,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "projectLogic/templates/staticFiles"),
-    'projectLogic/templates/staticFiles'
+    os.path.join(BASE_DIR, "users/templates/staticFiles"),
+    'users/templates/staticFiles'
 ]
 
 

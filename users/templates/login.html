@@ -1,0 +1,14 @@
+{% extends 'templateSite.html' %}
+
+{% block content %}
+
+<form method="POST" novalidate>
+	{% csrf_token %}
+	<h2>Login</h2>
+	{{form.as_p}}
+	<input class="button large secondary" type="submit" value="Login &raquo;" />
+	<p>Don't have an account? <a href="/register">Register</a></p>
+  <a href="/forget ">Forget password?</a>
+</form>
+
+  {% endblock %}
