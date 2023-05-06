@@ -72,7 +72,7 @@ def forgetPageReq(request):
         'pageName': 'forget',
         'pageTitle': 'Forget Password',
     }
-    return render(request, template_name="../templates/forgetpw.html",context=context)
+    return render(request, template_name="../templates/forget-pass.html",context=context)
 
 def changePwdPageReq(request):
     return render(request, template_name="../templates/.html",context=context)
