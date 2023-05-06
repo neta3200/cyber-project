@@ -10,6 +10,7 @@ from django.contrib.auth import login, authenticate, logout
 def loginPageReq(request):
     if request.method == 'GET':
         form = LoginForm()
+        #return redirect('/login')
     else:
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -19,7 +20,7 @@ def loginPageReq(request):
             if user:
                 login(request, user)
                 messages.success(request,f'Hi {username.title()}, welcome back!')
-                #return redirect('posts')
+                return redirect('/customers')
         
         # form is not valid or user is not authenticated
         messages.error(request,f'Invalid username or password')
@@ -76,5 +77,3 @@ def forgetPageReq(request):
 def changePwdPageReq(request):
     return render(request, template_name="../templates/.html",context=context)
 
-def customersPageReq(request):
-    return render(request, template_name="../templates/forgetpw.html",context=context)

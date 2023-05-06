@@ -19,7 +19,9 @@ from django.urls import path
 """from projectLogic.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq
 from projectLogic import views"""
 from users import views
-from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, customersPageReq, changePwdPageReq, logoutReq
+from customers import views
+from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, changePwdPageReq, logoutReq
+from customers.views import customersPageReq
 
 urlpatterns = [
     path('admin/', admin.site.urls),

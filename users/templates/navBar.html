@@ -4,7 +4,7 @@
       <div class="twelve columns">
         <ul id="menu-header" class="nav-bar horizontal">
           {%if request.user.is_authenticated %}
-            <li {% if pageName == "login" %} class="active" {% endif %}><a href="/customers">Customers</a></li>
+            <li {% if pageName == "customers" %} class="active" {% endif %}><a href="/customers">Customers</a></li>
             <li {% if pageName == "register" %} class="active" {% endif %}><a href="/changepwd">Change Password</a></li>
             <li {% if pageName == "forget" %} class="active" {% endif %}><a href="/logout">Logout</a></li>
             <li {% if pageName == "about" %} class="active" {% endif %}><a href="/about">About</a></li>
