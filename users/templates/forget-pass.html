@@ -1,0 +1,27 @@
+{% extends 'templateSite.html' %}
+
+{% block content %}
+
+
+<p class="welcome_text">Forgotten password? Enter email here</p>
+
+<form method="POST" novalidate>
+	{% csrf_token %}
+	
+  {% for field in form %}
+	<p>
+		{% if field.errors %}
+		<ul class="errorlist">
+			{% for error in field.errors %}
+			<li>{{ error }}</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+	 	{{ field.label_tag }} {{ field }}
+	</p>
+	{% endfor %}
+	<input style="text-align:center" class="button large secondary" type="submit" value="Send email" />
+  
+</form>
+
+{% endblock %}
