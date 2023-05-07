@@ -1,4 +1,4 @@
-from .forms import UserForm, RegisterForm, LoginForm
+from .forms import UserForm, RegisterForm, LoginForm ,ForgotPwdForm
 
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -68,7 +68,11 @@ def aboutPageReq(request):
     return render(request, template_name="../templates/about.html", context=context)
 
 def forgetPageReq(request):
+
+    form=ForgotPwdForm()
+
     context = { 
+        'form':form,
         'pageName': 'forget',
         'pageTitle': 'Forget Password',
     }
@@ -76,4 +80,3 @@ def forgetPageReq(request):
 
 def changePwdPageReq(request):
     return render(request, template_name="../templates/.html",context=context)
-
