@@ -47,5 +47,14 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=65, widget=forms.PasswordInput)
 
 
-class ForgotPwdForm(forms.Form):
+class ForgotPasswordForm(forms.Form):
     email_address = forms.EmailField(widget=forms.EmailInput())
+    class Meta:
+        fields = ['username','email','password1','password2']
+
+
+class ChangePasswordForm(forms.Form):
+    class Meta:
+        model=User
+
+        fields = ['old password','new password','verify new password',]

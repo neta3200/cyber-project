@@ -1,10 +1,11 @@
-from .forms import UserForm, RegisterForm, LoginForm ,ForgotPwdForm
+from .forms import UserForm, RegisterForm, LoginForm ,ForgotPasswordForm, ChangePasswordForm
+
 
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.contrib.auth import login, authenticate, logout
-
+import hashlib, random, smtplib, ssl
 
 
 def loginPageReq(request):
@@ -69,7 +70,24 @@ def aboutPageReq(request):
 
 def forgetPageReq(request):
 
-    form=ForgotPwdForm()
+    if request.method == 'GET':
+        form=ForgotPasswordForm()
+    else:
+        if request.method == 'POST':
+            form = ForgotPasswordForm(request.POST) 
+            if form.is_valid(): 
+                reset_email_key=hashlib.sha1(str(random.getrandbits(160)).encode('utf-8')).hexdigest()
+                #smtp = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
+                #email_context=ssl.create_default_context()
+                #smtp.starttls(context=email_context)
+                #smtp.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+                #smtp.sendmail(EMAIL_HOST_USER, form.email_address, reset_email_key)
+                smtp = smtplib.SMTP('smtp.gmail.com', 587)
+                email_context=ssl.create_default_context()
+                smtp.starttls(context=email_context)
+                smtp.login('cybernmmd@gmail.com', 'zxcasdqwe1!')
+                smtp.sendmail('cybernmmd@gmail.com', form.email_address, reset_email_key)
+                return redirect(url_for('auth.verify', messages = message , user_email = form.email_address))
 
     context = { 
         'form':form,
@@ -79,4 +97,16 @@ def forgetPageReq(request):
     return render(request, template_name="../templates/forget-pass.html",context=context)
 
 def changePwdPageReq(request):
-    return render(request, template_name="../templates/.html",context=context)
+
+    if request.method == 'GET':
+        form=ChangePasswordForm()
+    else:
+        if request.method == 'POST':
+            form = ChangePasswordForm(request.POST) 
+            #if form.is_valid(): 
+    context = { 
+        'form':form,
+        'pageName': 'forget',
+        'pageTitle': 'Forget Password',
+    }
+    return render(request, template_name="../templates/change-pass.html",context=context)
