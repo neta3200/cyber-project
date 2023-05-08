@@ -1,7 +1,15 @@
 from django import forms
+
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import (
+    LogoutView, 
+    PasswordResetView, 
+    PasswordResetDoneView, 
+    PasswordResetConfirmView,
+    PasswordResetCompleteView
+)
 
 
 class UserForm(forms.Form):
@@ -47,14 +55,16 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=65, widget=forms.PasswordInput)
 
 
-class ForgotPasswordForm(forms.Form):
-    email_address = forms.EmailField(widget=forms.EmailInput())
+class ForgotPasswordForm(forms.Form,PasswordResetView):
+    email = forms.EmailField(widget=forms.EmailInput())
+    
+
+
+class ChangePasswordForm(forms.Form,PasswordResetView):
+    old_password = forms.CharField(widget=forms.PasswordInput())
+    new_password = forms.CharField(widget=forms.PasswordInput())
+    verify_password = forms.CharField(widget=forms.PasswordInput())
     class Meta:
-        fields = ['username','email','password1','password2']
-
-
-class ChangePasswordForm(forms.Form):
-    class Meta:
-        model=User
-
+        #model=User
         fields = ['old password','new password','verify new password',]
+

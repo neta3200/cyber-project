@@ -21,7 +21,7 @@ from django.urls import path
 from projectLogic import views"""
 from users import views
 from customers import views
-from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, changePwdPageReq, logoutReq
+from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, changePwdPageReq, logoutReq, sendEmail
 from customers.views import customersPageReq
 
 
@@ -32,22 +32,26 @@ urlpatterns = [
     path('register/', registerPageReq),
     path('about/', aboutPageReq),
     path('forget/', forgetPageReq),
+    path('password-reset-sent/', sendEmail),
     path('customers/', customersPageReq),
     path('changepwd/', changePwdPageReq),
     path('logout/', logoutReq),
     
+    #Reset password
+    #path('reset_password/', 
+    #auth_views.PasswordResetView.as_view(template_name="password-reset-form.html"),
+    #name='password_reset'),
 
-    #form to submit the email:
-    path('reset_password/',
-     auth_views.PasswordResetView.as_view(template_name="forget-pass.html")
-     ,name="reset_password"),
-    #render the success mwssage and let know the password just set:
-    path('reset_password_sent/', 
-    auth_views.PasswordResetDoneView.as_view(template_name="password-reset-sent.html"),name="password_reset_done"),
-    #get email and submit form:
-    path('reset/<uidb64>/<token>/', 
-    auth_views.PasswordResetConfirmView.as_view(template_name="password-reset-form.html"), name="password_reset_confirm"),
-    #everything is done:
-    path('reset_password_complete/', 
-    auth_views.PasswordResetCompleteView.as_view(template_name="password-reset-done.html"),name="password_reset_complete"),
+    #path('reset_password/done', 
+    #auth_views.PasswordResetDoneView.as_view(template_name="password-reset-sent.html"),
+    #name='password_reset_done'),
+
+    #path('reset/<uidb64>/<token>/',
+    #auth_views.PasswordResetConfirmView.as_view(template_name="reset_password_done.html"),
+    #name='password_reset_confirm'),
+
+    #path('reset_password/complete/', 
+    #auth_views.PasswordResetCompleteView.as_view(template_name="reset_password_complete.html"),
+    #name='password_reset_complete'),
+    
  ]
