@@ -5,7 +5,11 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.contrib.auth import login, authenticate, logout
+<<<<<<< HEAD
 import hashlib, random, smtplib, ssl
+=======
+from django.contrib.auth import views as auth_views
+>>>>>>> 65c62c4afb9607dacdf90ed713649dcc9f8900e9
 
 
 def loginPageReq(request):
@@ -94,7 +98,8 @@ def forgetPageReq(request):
         'pageName': 'forget',
         'pageTitle': 'Forget Password',
     }
-    return render(request, template_name="../templates/forget-pass.html",context=context)
+    auth_views.PasswordResetView.as_view(template_name="../templates/forget-pass.html")
+    return render(request, template_name="../templates/forget-pass.html", context=context)
 
 def changePwdPageReq(request):
 
