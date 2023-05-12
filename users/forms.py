@@ -55,9 +55,8 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=65, widget=forms.PasswordInput)
 
 
-class ForgotPasswordForm(forms.Form,PasswordResetView):
+class ForgotPasswordForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput())
-    
 
 
 class ChangePasswordForm(forms.Form,PasswordResetView):

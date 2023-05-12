@@ -21,9 +21,16 @@ from django.urls import path
 from projectLogic import views"""
 from users import views
 from customers import views
-from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, changePwdPageReq, logoutReq, sendEmail
+from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, logoutReq, sendEmail
 from customers.views import customersPageReq
 
+from django.contrib.auth.views import (
+    LogoutView, 
+    PasswordResetView, 
+    PasswordResetDoneView, 
+    PasswordResetConfirmView,
+    PasswordResetCompleteView
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,11 +39,12 @@ urlpatterns = [
     path('register/', registerPageReq),
     path('about/', aboutPageReq),
     path('forget/', forgetPageReq),
-    path('password-reset-sent/', sendEmail),
+    path('forget/sendEmail', sendEmail),
     path('customers/', customersPageReq),
-    path('changepwd/', changePwdPageReq),
     path('logout/', logoutReq),
-    
+
+
+
     #Reset password
     #path('reset_password/', 
     #auth_views.PasswordResetView.as_view(template_name="password-reset-form.html"),
