@@ -21,7 +21,9 @@ from django.urls import path
 from projectLogic import views"""
 from users import views
 from customers import views
-from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, logoutReq, sendEmail
+from users.views import (
+    loginPageReq, registerPageReq, aboutPageReq,
+     forgetPageReq, logoutReq, sendEmail,sha1_code_verification,resetPassword)
 from customers.views import customersPageReq
 
 from django.contrib.auth.views import (
@@ -42,7 +44,8 @@ urlpatterns = [
     path('forget/sendEmail', sendEmail),
     path('customers/', customersPageReq),
     path('logout/', logoutReq),
-
+    path('verification-key-password/', sha1_code_verification),
+    path('reset-password/', resetPassword),
 
 
     #Reset password

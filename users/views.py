@@ -1,4 +1,4 @@
-from .forms import UserForm, RegisterForm, LoginForm ,ForgotPasswordForm
+from .forms import UserForm, RegisterForm, LoginForm ,ForgotPasswordForm,Sha1VerificationCodeForm,ResetPasswordForm
 
 
 from django.contrib import messages
@@ -115,7 +115,7 @@ def forgetPageReq(request):
                 'hashed_code' : sha1_encoded,
                 'protocol' : 'http',
                 'domain' : '127.0.0.1:8000',
-                'url' : '/password-reset-sent',
+                'url' : '/verification-key-password',
                 })
                 send_mail(subject, message, email_from, recipient_list)
                 return redirect('./sendEmail')
@@ -133,7 +133,7 @@ def forgetPageReq(request):
 def sendEmail(request):
     context = {
         'pageName': 'sendEmail',
-        'pageTitle': 'Email Sent To You',
+        'pageTitle': 'Email Sent',
         # 'title': 'email sent to the user',
         # 'page_name': 'sendEmail',
     }
@@ -141,5 +141,58 @@ def sendEmail(request):
 
 
 
+def sha1_code_verification(request):
 
+    form = Sha1VerificationCodeForm(request.POST)
+    if form.is_valid():
+        input_username = form.cleaned_data.get('username')
+        input_code = form.cleaned_data.get('reset_code')
+        #found_user = UsersData.objects.filter(username = input_username, resetCode = input_code)
+        #if found_user.exists():
+        #login(request)
+        response = redirect('/reset-password/')
+        response.set_cookie("isAuthenticated", "true")
+        #found_user = UsersData.objects.get(username = input_username)
+        #found_user.resetCode = None
+        #found_user.save() 
+        return response
+    else:
+        form = Sha1VerificationCodeForm()
+        context = {
+        'form': form,
+        'page_name': 'Verify Reset Code',
+        'pageTitle': 'Verify Reset Code',
 
+        }
+        return render(request, "verification-key-password.html", context = context)
+    context = {
+        'form': form,
+        'page_name': 'Verify Reset Code',
+        'pageTitle': 'Verify Reset Code',
+
+    }
+    return render(request, "verification-key-password.html", context = context)
+
+def resetPassword(request):
+    if request.method == 'GET':
+        form = ResetPasswordForm()
+    
+    else:
+        if request.method == 'POST':
+            form = ResetPasswordForm(request.POST) 
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.save()
+                messages.success(request, 'You have changes password successfully.')
+                login(request, user)
+                #return redirect('posts')
+
+        
+   
+    context = {
+        'form': form,
+        #'page_name': 'reset password',
+        'pageName': 'reset password',
+        'pageTitle': 'change password',
+        }
+    return render(request, "reset_password.html", context = context)

@@ -125,6 +125,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #AUTH_USER_MODEL = 'users.UsersData'
 
 #SMTP Configuration
+
+EMAIL_DEBUG=True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_USE_SSL=False
+EMAIL_HOST_USER='cybernmmd@gmail.com'
+#EMAIL_HOST_PASSWORD='ZXCASDQWE1!'
+EMAIL_HOST_PASSWORD='kzlgnzbrxwiejwjz'
+
+
+
+
 # EMAIL_DEBUG=True
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # #EMAIL_HOST='smtp.gmail.com'
@@ -133,26 +147,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # # #EMAIL_HOST_PORT = 25
 # EMAIL_USE_TLS=True
 # EMAIL_USE_SSL=False
-
 # EMAIL_HOST_USER='cybernmmd@yahoo.com'
 # EMAIL_HOST_PASSWORD='zxcasdqwe1!!!!'
-
-
-
 # EMAIL_DEBUG=True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST='smtp.gmail.com'
 # EMAIL_HOST='smtp.mail.yahoo.com'
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_USE_SSL=False
 # EMAIL_HOST_USER='cybernmmd@yahoo.com'
 # EMAIL_HOST_PASSWORD='zxcasdqwe1!!!!'
-
-EMAIL_HOST_USER='cybernmmd@gmail.com'
-#EMAIL_HOST_PASSWORD='ZXCASDQWE1!'
-EMAIL_HOST_PASSWORD='kzlgnzbrxwiejwjz'
-
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.yandex.ru'
 # EMAIL_PORT = 465
@@ -163,3 +163,12 @@ EMAIL_HOST_PASSWORD='kzlgnzbrxwiejwjz'
 # #SERVER_EMAIL = 'cybernmmd@yandex.ru'
 # EMAIL_USE_TLS = False
 # EMAIL_USE_SSL = True
+
+
+#TLS 1.2 PROTOCOL
+import ssl
+ssl._DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
+
+# Set the default SSL version to TLS 1.2
+# DEFAULT_SSL_VERSION = ssl.PROTOCOL_TLSv1_2
+# ssl._create_default_https_context = ssl._create_unverified_context

@@ -67,3 +67,14 @@ class ChangePasswordForm(forms.Form,PasswordResetView):
         #model=User
         fields = ['old password','new password','verify new password',]
 
+class Sha1VerificationCodeForm(forms.Form):
+    reset_code = forms.CharField(widget=forms.TextInput())
+
+
+class ResetPasswordForm(forms.Form):
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
+    verify_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
+    class Meta:
+        model=User
+        fields = ['old password','new password','verify new password',]
+
