@@ -3,15 +3,24 @@ from .forms import RegisterForm, LoginForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
-from django.contrib.auth import login, authenticate, logout
-
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.http import HttpResponseRedirect
+from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.forms import AuthenticationForm
+#from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from .models import UsersData
 
 import random
 import hashlib
 import os
 import json
 
-
+User = get_user_model()
 
 def loginPageReq(request):
     
@@ -53,7 +62,8 @@ def registerPageReq(request):
     if request.method == 'GET':
         if(request.GET):
             data = request.GET or None
-            user = UsersData.objects.raw(f"SELECT * FROM users_usersdata WHERE username = '%s'" % (data['username']))
+            username = data['username']
+            user = UsersData.objects.raw(f"SELECT * FROM users_usersdata WHERE username = '%s'" % (username))
             if(len(list(user)) != 0 ):
                 messages.info(request, "Are you sure you don't have a user?")
                 if(len(list(user)) > 1 ):
@@ -63,7 +73,7 @@ def registerPageReq(request):
             elif(data['password1'] != data['password2']):
                 messages.info(request, "The passwords do not match try again")
             else:
-                user = UserData.objects.create_user(
+                user = UsersData.objects.create_user(
                     data['username'],
                     data['email'],
                     data['password1']
@@ -108,7 +118,7 @@ def registerPageReq(request):
             user.lastPasswords = json.dumps(passwordsObj)
             user.save()
             newUser = user
-            messages.success(request, 'You have singed up successfully.')
+            #messages.success(request, 'You have singed up successfully.')
             #login(request, user)
     form = RegisterForm()
     context = {

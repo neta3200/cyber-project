@@ -22,7 +22,7 @@ def customersPageReq(request):
     'customerFirstName': customerFirstName,
     'customerLastName': customerLastName,
     'pageTitle': 'Customers',
-    'secureMod': request.COOKIES['secureMod'],
+    #'secureMod': request.COOKIES['secureMod'],
     'c': result
     }
     return render(request, template_name="../templates/customers.html", context=context)
