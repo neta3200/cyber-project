@@ -5,6 +5,17 @@
 
 <p class="welcome_text">Forgotten password? Enter email here, we will send you reset key</p>
 
+<!-- my -->
+{% if field.messages %}
+<ul class="messages">
+  {% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<!-- end my -->
+
 <form method="POST" novalidate>
 	{% csrf_token %}
 	

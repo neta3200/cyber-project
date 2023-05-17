@@ -122,10 +122,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 #our adding:
-#AUTH_USER_MODEL = 'users.UsersData'
+AUTH_USER_MODEL = 'users.UsersData'
+
+
 
 #SMTP Configuration
-
 EMAIL_DEBUG=True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.gmail.com'

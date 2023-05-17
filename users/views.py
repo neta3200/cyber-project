@@ -1,5 +1,6 @@
-from .forms import UserForm, RegisterForm, LoginForm ,ForgotPasswordForm,Sha1VerificationCodeForm,ResetPasswordForm
+from .forms import UserForm, RegisterForm, LoginForm ,ForgotPasswordForm,Sha1VerificationCodeForm
 
+from .models import UsersData 
 
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -104,21 +105,34 @@ def forgetPageReq(request):
             form = ForgotPasswordForm(request.POST)
             if form.is_valid():
                 email=form.cleaned_data['email']
-                randon_digits=random.getrandbits(10)
-                sha1_encoded = hashlib.sha1(str(randon_digits).encode('utf-8')).hexdigest()
-                # Send the random value to the user's email
-                subject = 'Reset Password - Communication LTD'
-                email_from = settings.EMAIL_HOST_USER
-                recipient_list = [email]
-                message = render_to_string('../templates/password-reset-sent.html', 
-                {
-                'hashed_code' : sha1_encoded,
-                'protocol' : 'http',
-                'domain' : '127.0.0.1:8000',
-                'url' : '/verification-key-password',
-                })
-                send_mail(subject, message, email_from, recipient_list)
-                return redirect('./sendEmail')
+                user_exist_in_DB = UsersData.objects.filter(email = email).exists()
+                if user_exist_in_DB:
+
+                    randon_digits=random.getrandbits(10)
+                    sha1_encoded = hashlib.sha1(str(randon_digits).encode('utf-8')).hexdigest()
+                    # Send the random value to the user's email
+                    subject = 'Reset Password - Communication LTD'
+                    email_from = settings.EMAIL_HOST_USER
+                    recipient_list = [email]
+                    message = render_to_string('../templates/password-reset-sent.html', 
+                    {
+                    #'user': user,
+                    'hashed_code' : sha1_encoded,
+                    'protocol' : 'http',
+                    'domain' : '127.0.0.1:8000',
+                    'url' : '/verification-key-password',
+                    })
+                    send_mail(subject, message, email_from, recipient_list)
+                    user_in_DB=UsersData.objects.get(email = email)
+                    user_in_DB.resetCode=sha1_encoded
+                    user_in_DB.save()
+                    return redirect('./sendEmail')
+                else:
+                    context = { 
+                         'form':form,
+                        }
+                    messages.error(request, "Wrong Email try again.")
+                    #return render(request, template_name="../templates/forget-pass.html", context=context)
 
     context = { 
         'form':form,
@@ -142,29 +156,26 @@ def sendEmail(request):
 
 
 def sha1_code_verification(request):
-
+    
     form = Sha1VerificationCodeForm(request.POST)
     if form.is_valid():
-        input_username = form.cleaned_data.get('username')
-        input_code = form.cleaned_data.get('reset_code')
-        #found_user = UsersData.objects.filter(username = input_username, resetCode = input_code)
-        #if found_user.exists():
-        #login(request)
-        response = redirect('/reset-password/')
-        response.set_cookie("isAuthenticated", "true")
-        #found_user = UsersData.objects.get(username = input_username)
-        #found_user.resetCode = None
-        #found_user.save() 
-        return response
+        reset_code_in_DB = form.cleaned_data.get('reset_code')
+        user_exist_in_DB = UsersData.objects.filter(resetCode = reset_code_in_DB).exists()
+        if user_exist_in_DB:
+            user_in_DB = UsersData.objects.get(resetCode = reset_code_in_DB)
+            user_in_DB.resetCode = None
+            user_in_DB.save() 
+            return redirect('./sendEmail')
+
     else:
         form = Sha1VerificationCodeForm()
         context = {
         'form': form,
         'page_name': 'Verify Reset Code',
         'pageTitle': 'Verify Reset Code',
-
         }
-        return render(request, "verification-key-password.html", context = context)
+        messages.error(request, "NOT RIGHT CODE.")
+        #return render(request, "verification-key-password.html", context = context)
     context = {
         'form': form,
         'page_name': 'Verify Reset Code',
@@ -173,26 +184,29 @@ def sha1_code_verification(request):
     }
     return render(request, "verification-key-password.html", context = context)
 
-def resetPassword(request):
-    if request.method == 'GET':
-        form = ResetPasswordForm()
+# def resetPassword(request):
+#     if request.method == 'GET':
+#         form = ResetPasswordForm()
     
-    else:
-        if request.method == 'POST':
-            form = ResetPasswordForm(request.POST) 
-            if form.is_valid():
-                user = form.save(commit=False)
-                user.save()
-                messages.success(request, 'You have changes password successfully.')
-                login(request, user)
-                #return redirect('posts')
+#     else:
+#         if request.method == 'POST':
+#             form = ResetPasswordForm(request.POST) 
+#             if form.is_valid():
+#                 user = form.save(commit=False)
+#                 user.save()
+#                 messages.success(request, 'You have changes password successfully.')
+#                 login(request, user)
+#                 #return redirect('posts')
 
         
    
-    context = {
-        'form': form,
-        #'page_name': 'reset password',
-        'pageName': 'reset password',
-        'pageTitle': 'change password',
-        }
-    return render(request, "reset_password.html", context = context)
+#     context = {
+#         'form': form,
+#         #'page_name': 'reset password',
+#         'pageName': 'reset password',
+#         'pageTitle': 'change password',
+#         }
+#     return render(request, "reset_password.html", context = context)
+
+
+

@@ -1,6 +1,12 @@
 from django import forms
+ 
 
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import (
@@ -71,10 +77,11 @@ class Sha1VerificationCodeForm(forms.Form):
     reset_code = forms.CharField(widget=forms.TextInput())
 
 
-class ResetPasswordForm(forms.Form):
-    new_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
-    verify_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
-    class Meta:
-        model=User
-        fields = ['old password','new password','verify new password',]
+
+# class ResetPasswordForm(forms.Form):
+#     new_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
+#     verify_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
+#     class Meta:
+#         model=User
+#         fields = ['old password','new password','verify new password',]
 

@@ -23,7 +23,7 @@ from users import views
 from customers import views
 from users.views import (
     loginPageReq, registerPageReq, aboutPageReq,
-     forgetPageReq, logoutReq, sendEmail,sha1_code_verification,resetPassword)
+     forgetPageReq, logoutReq, sendEmail,sha1_code_verification)
 from customers.views import customersPageReq
 
 from django.contrib.auth.views import (
@@ -45,7 +45,7 @@ urlpatterns = [
     path('customers/', customersPageReq),
     path('logout/', logoutReq),
     path('verification-key-password/', sha1_code_verification),
-    path('reset-password/', resetPassword),
+    #path('reset-password/', resetPassword),
 
 
     #Reset password
