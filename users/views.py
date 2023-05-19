@@ -159,13 +159,29 @@ def sha1_code_verification(request):
     
     form = Sha1VerificationCodeForm(request.POST)
     if form.is_valid():
-        reset_code_in_DB = form.cleaned_data.get('reset_code')
-        user_exist_in_DB = UsersData.objects.filter(resetCode = reset_code_in_DB).exists()
-        if user_exist_in_DB:
-            user_in_DB = UsersData.objects.get(resetCode = reset_code_in_DB)
+        #code enter in form
+        user_reset_code_entered = form.cleaned_data.get('reset_code')
+        print("reset_code_in_DB: ",user_reset_code_entered)
+        #check if the entered code is in the DB of the user
+        user_reset_code_in_DB = UsersData.objects.filter(resetCode = user_reset_code_entered).exists()
+        print("user_exist_in_DB: ",user_reset_code_in_DB)
+
+        if user_reset_code_in_DB:
+            user_in_DB = UsersData.objects.get(resetCode = user_reset_code_entered)
+            #the actual code in the DB
+            print("user_in_DB.resetCode: ",user_in_DB.resetCode)
+            print("user_in_DB: ",user_in_DB)
             user_in_DB.resetCode = None
             user_in_DB.save() 
-            return redirect('./sendEmail')
+            #return redirect('./sendEmail')
+            context = {
+                'page_name': 'change-pass',
+                'pageTitle': 'Change password',
+            }
+            return render(request, "change-pass.html", context = context)
+
+        else:
+            messages.error(request, "NOT RIGHT CODE.")
 
     else:
         form = Sha1VerificationCodeForm()
@@ -174,7 +190,7 @@ def sha1_code_verification(request):
         'page_name': 'Verify Reset Code',
         'pageTitle': 'Verify Reset Code',
         }
-        messages.error(request, "NOT RIGHT CODE.")
+        #messages.error(request, "NOT RIGHT CODE.")
         #return render(request, "verification-key-password.html", context = context)
     context = {
         'form': form,
