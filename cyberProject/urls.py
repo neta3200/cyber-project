@@ -20,7 +20,7 @@ from django.urls import path
 from projectLogic import views"""
 from users import views
 from customers import views
-from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, changePwdPageReq, logoutReq
+from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, user_change_pwd_view, user_changed_pwd_successfully_view, logoutReq
 from customers.views import customersPageReq
 
 urlpatterns = [
@@ -30,8 +30,8 @@ urlpatterns = [
     path('register/', registerPageReq),
     path('about/', aboutPageReq),
     path('forget/', forgetPageReq),
+    path('change-pwd/', user_change_pwd_view),
+    path('change-pwd/done', user_changed_pwd_successfully_view),
     path('customers/', customersPageReq),
-    path('changepwd/', changePwdPageReq),
     path('logout/', logoutReq),
-    
  ]
