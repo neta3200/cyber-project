@@ -9,13 +9,7 @@ User = get_user_model()
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.views import (
-    LogoutView, 
-    PasswordResetView, 
-    PasswordResetDoneView, 
-    PasswordResetConfirmView,
-    PasswordResetCompleteView
-)
+from django.contrib.auth.views import PasswordResetView
 
 
 class UserForm(forms.Form):
@@ -75,13 +69,3 @@ class ChangePasswordForm(forms.Form,PasswordResetView):
 
 class Sha1VerificationCodeForm(forms.Form):
     reset_code = forms.CharField(widget=forms.TextInput())
-
-
-
-# class ResetPasswordForm(forms.Form):
-#     new_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
-#     verify_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
-#     class Meta:
-#         model=User
-#         fields = ['old password','new password','verify new password',]
-

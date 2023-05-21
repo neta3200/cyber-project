@@ -199,30 +199,3 @@ def sha1_code_verification(request):
 
     }
     return render(request, "verification-key-password.html", context = context)
-
-# def resetPassword(request):
-#     if request.method == 'GET':
-#         form = ResetPasswordForm()
-    
-#     else:
-#         if request.method == 'POST':
-#             form = ResetPasswordForm(request.POST) 
-#             if form.is_valid():
-#                 user = form.save(commit=False)
-#                 user.save()
-#                 messages.success(request, 'You have changes password successfully.')
-#                 login(request, user)
-#                 #return redirect('posts')
-
-        
-   
-#     context = {
-#         'form': form,
-#         #'page_name': 'reset password',
-#         'pageName': 'reset password',
-#         'pageTitle': 'change password',
-#         }
-#     return render(request, "reset_password.html", context = context)
-
-
-

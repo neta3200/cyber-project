@@ -14,7 +14,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from django.urls import path
 """from projectLogic.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq
@@ -26,13 +25,6 @@ from users.views import (
      forgetPageReq, logoutReq, sendEmail,sha1_code_verification)
 from customers.views import customersPageReq
 
-from django.contrib.auth.views import (
-    LogoutView, 
-    PasswordResetView, 
-    PasswordResetDoneView, 
-    PasswordResetConfirmView,
-    PasswordResetCompleteView
-)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,24 +37,6 @@ urlpatterns = [
     path('customers/', customersPageReq),
     path('logout/', logoutReq),
     path('verification-key-password/', sha1_code_verification),
-    #path('reset-password/', resetPassword),
 
-
-    #Reset password
-    #path('reset_password/', 
-    #auth_views.PasswordResetView.as_view(template_name="password-reset-form.html"),
-    #name='password_reset'),
-
-    #path('reset_password/done', 
-    #auth_views.PasswordResetDoneView.as_view(template_name="password-reset-sent.html"),
-    #name='password_reset_done'),
-
-    #path('reset/<uidb64>/<token>/',
-    #auth_views.PasswordResetConfirmView.as_view(template_name="reset_password_done.html"),
-    #name='password_reset_confirm'),
-
-    #path('reset_password/complete/', 
-    #auth_views.PasswordResetCompleteView.as_view(template_name="reset_password_complete.html"),
-    #name='password_reset_complete'),
     
  ]
