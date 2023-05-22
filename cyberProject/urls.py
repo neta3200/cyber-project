@@ -38,5 +38,5 @@ urlpatterns = [
     path('forget/sendEmail', sendEmail),
     path('change-pwd/', user_change_pwd_view),
     path('change-pwd/done', user_changed_pwd_successfully_view),
-    
+    path('verification-key-password/', sha1_code_verification),
  ]
