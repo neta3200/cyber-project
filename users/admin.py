@@ -1,5 +1,5 @@
 from django.contrib import admin
+from .models import UsersData
 
 # Register your models here.
-from .models import UsersData 
 admin.site.register(UsersData)

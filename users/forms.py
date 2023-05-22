@@ -40,7 +40,7 @@ class ResetPwdForm(forms.Form):
 
 
 
-class RegisterForm(UserCreationForm):
+"""class RegisterForm(UserCreationForm):
     #first_name = forms.CharField(max_length=30)
     #last_name = forms.CharField(max_length=30)
     #id_number = forms.IntegerField() # id - 10 digits?
@@ -66,9 +66,9 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model=User
-        fields = ['username','first_name','last_name','id_number','email','password1','password2']
+        fields = ['username','first_name','last_name','id_number','email','password','password_repeat']
 
-
+"""
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=65)
     password = forms.CharField(max_length=65, widget=forms.PasswordInput)

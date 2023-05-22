@@ -5,7 +5,24 @@
 <form method='GET'> 
   <p style="display:inline;"> First Name: </p><input type='text' name='fname' placeholder="Customer First Name" required/> <br><br>
   <p style="display:inline;"> Last Name: </p><input type='text' name='lname' placeholder="Customer Last Name" required/> <br><br>
+  <p style="display:inline;"> City: </p><input type='text' name='city' placeholder="Customer Last Name" required/> <br><br>
+  <p style="display:inline;"> Address: </p><input type='text' name='address' placeholder="Customer Last Name" required/> <br><br>
+  <p style="display:inline;"> Internet Speed:</p><input type='text' name='speed' placeholder="Customer Last Name" required/> <br><br>
 <input class="button large secondary" type='submit' value='Add'/>
 </form>
+
+
+
+<h3> Last Customer Added:</h3>
+{% for customer in c %}
+{% if isSecure == 'true' %}
+<h3>{{ customer.name }} {{ customer.lastName }} </h3>
+{% else %}
+<h3>{{ customer.name | safe}} {{ customer.lastName | safe}} </h3>
+{% endif %}
+{% empty %}
+<h3>no customers </h3>
+{% endfor %}
+
 
   {% endblock %}

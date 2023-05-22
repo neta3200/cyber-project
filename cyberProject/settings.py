@@ -1,5 +1,8 @@
 from pathlib import Path
 import os,json
+from dotenv import load_dotenv
+load_dotenv()  # loads the configs from .env
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -17,6 +20,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['cyber', '127.0.0.1', 'localhost']
 
+#our adding:
+AUTH_USER_MODEL = 'users.UsersData'
 
 # Application definition
 
@@ -121,13 +126,17 @@ STATICFILES_DIRS = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Password hashers
+# https://docs.djangoproject.com/en/3.2/topics/auth/passwords/
+PASSWORD_HASHERS = [
+    # Default Haser - Uses PBKDF2 + HMAC + SHA256
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.SHA1PasswordHasher'
+]
 
-
-
-#our adding:
-AUTH_USER_MODEL = 'users.UsersData'
 
 #TLS 1.2 PROTOCOL
 import ssl

@@ -5,6 +5,6 @@ from django.db import models
 class Customer(models.Model):
     firstName = models.CharField(max_length=50)
     lastName = models.CharField(max_length=50)
-    #city=
-    #address=
-    #internetSpeed=
+    city= models.CharField(max_length=50)
+    #address= models.CharField(max_length=50)
+    #internetSpeed= models.CharField(max_length=50)
