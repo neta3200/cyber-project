@@ -295,7 +295,7 @@ def user_change_pwd_view(request):
         if not euqalPasswords(form.cleaned_data['new_password'], form.cleaned_data['verify_password']):
             messages.info(request, "The passwords do not match, please try again.")
             return render(request, "../templates/user_change_pwd.html", context = context)
-        if not euqalPasswords(form.cleaned_data['new_password']):
+        if not passwordVaildation(form.cleaned_data['new_password']):
             messages.info(request, "The password you entered does not meet the requirements, please try again.")
             return render(request, "../templates/user_change_pwd.html", context = context)
         u = UsersData.objects.get(username = request.user)
