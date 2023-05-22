@@ -6,38 +6,50 @@ from django.http import Http404
 from .models import Customer
 
 def customersPageReq(request):
-    result = None
-    lastCustomer= None
-    if request.method == 'GET':
-        customerFirstName = request.GET.get('fname', None)
-        customerLastName = request.GET.get('lname', None)
-        customerCity = request.GET.get('city', None)
-        #customerAddress = request.GET.get('address', None) 
-        customerInternetSpeed = request.GET.get('speed', None)
-    else:
-        customerFirstName = request.POST.get('fname')
-        customerLastName = request.POST.get('lname')
+    result = []
+
+    if request.method == 'POST':
+
+        customerFirstName = request.POST.get('firstName')
+        customerLastName = request.POST.get('lastName')
         customerCity = request.POST.get('city')
         #customerAddress = request.POST.get('address') 
-        customerInternetSpeed = request.POST.get('speed')
+        #customerInternetSpeed = request.POST.get('speed')
         if not (customerFirstName.replace(' ', '').isalpha()) or not (customerFirstName.replace(' ', '').isalpha()): 
-            return render (request, '../templates/http404.html')
+            #return render (request, '../templates/http404.html')
+            messages.error(request, "not found.")
 
-    if  customerFirstName and customerLastName and customerCity and customerAddress and customerInternetSpeed:
-        savecustomer = Customer(firstName= customerFirstName,lastName= customerLastName, city= customerCity, address= customerAddress, internetSpeed= customerInternetSpeed)
-        savecustomer.save()
-        get_last_client_query = "SELECT * FROM clients_client order by id DESC LIMIT 1;"
-        res = Customer.objects.raw(get_last_client_query)
-    
+        print("customerFirstName post:",customerFirstName)
+    else:
+        customerFirstName = request.GET.get('firstName', None)
+        customerLastName = request.GET.get('lastName', None)
+        customerCity = request.GET.get('city', None)
+        #customerAddress = request.GET.get('address', None) 
+        #customerInternetSpeed = request.GET.get('speed', None)
+        print("customerFirstName get:",customerFirstName)
+
+
+    #check if the costumer is not empty value than add costumer to DB:
+    if  customerFirstName and customerLastName and customerCity:
+      
+        customer_in_DB = Customer(firstName= customerFirstName,lastName= customerLastName, city= customerCity)
+        print("customer_in_DB:",customer_in_DB)
+        customer_in_DB.save()
+        sql_query_fetch_customer = "SELECT * FROM customers_customer order by id DESC;"
+        result = Customer.objects.raw(sql_query_fetch_customer)
+        print("result: ", result)
+
+
+
     context = {
     'pageName': 'customers',
     'customerFirstName': customerFirstName,
     'customerLastName': customerLastName,
     'customerCity': customerCity,
     #'customerAddress': customerAddress,
-    'customerInternetSpeed': customerInternetSpeed,
+    #'customerInternetSpeed': customerInternetSpeed,
     'pageTitle': 'Customers',
     #'secureMod': request.COOKIES['secureMod'],
-    'c': result
+    'customers': result
     }
     return render(request, template_name="../templates/customers.html", context=context)
