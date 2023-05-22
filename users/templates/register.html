@@ -1,25 +1,36 @@
 {% extends 'templateSite.html' %}
 
 {% block content %}
+<div class="row">
+	<div class="column">
+		<div id="secure-form-register">
+			<form method='POST' style="width:50%;">
+				{{ form.as_p }} {% csrf_token %}
+				<input style="text-align:center" class="button large secondary" type="submit" value="Register" />
+			</form>
+			{% if newUser %}
+				<h4> {{ newUser.username }} was created sucessfully!</h4>
+			{% endif %}
+		</div>
+		<!--<div id="insecure-form-register">
+			<form method='GET' style="width:50%;">
+				{{ form.as_p }} {% csrf_token %}
+				<input style="text-align:center" class="button large secondary" type="submit" value="Register" />
+			</form>
+			{% if user_new %}
+				<h4> {{ user_new.username }} was created sucessfully!</h4>
+			{% endif %}
+			{% if users %}
+			  {% for user in users %}
+			  <h4> {{ user.username }} was created sucessfully!</h4>
+			  {% endfor %}
+			{% endif %}
+		</div> -->
+	</div>
+	<div class="column">
+		{% include 'password-policy.html' %}
+	</div>
+</div>
+{% endblock %}
 
-<form method="POST" novalidate>
-	{% csrf_token %}
-	
-  {% for field in form %}
-	<p>
-		{% if field.errors %}
-		<ul class="errorlist">
-			{% for error in field.errors %}
-			<li>{{ error }}</li>
-			{% endfor %}
-		</ul>
-		{% endif %}
-	 	{{ field.label_tag }} {{ field }}
-	</p>
-	{% endfor %}
-	<input style="text-align:center" class="button large secondary" type="submit" value="Register" />
-  <p>Already has an account? <a href="/login">Login</a></p>
-</form>
-
-
-  {% endblock %}
+  
