@@ -1,2 +1,3 @@
 # GIT IGNORE
 .venv
+.db.sqlite3
