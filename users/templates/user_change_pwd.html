@@ -1,10 +1,22 @@
 {% extends 'templateSite.html' %}
 
 {% block content %}
+<div class="row">
+	<div class="column">
+        <form method='POST'>
+            {{ form.as_p }} {% csrf_token %}
+            <!--<input type='submit' value='Change password' /> -->
+            <input style="text-align:center" class="button large secondary" type="submit" value="Change password" />
+        </form>
+    </div>
+    <div class="column">
+		{% include 'password-policy.html' %}
+	</div>
+</div>
 
+<!--
 <form method='POST'>
 {{ form.as_p }} {% csrf_token %}
-<!--<input type='submit' value='Change password' /> -->
 <input style="text-align:center" class="button large secondary" type="submit" value="Change password" />
 <div class="right">
 
@@ -12,5 +24,5 @@
 
 </div>
 </form>
-
+--->
 {% endblock %}

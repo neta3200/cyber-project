@@ -7,7 +7,7 @@ load_dotenv()  # loads the configs from .env
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 with open(os.path.join(BASE_DIR, 'cyberProject/passwordRequirements.json')) as f:
-    PASS_REQ = json.load(f)
+    PASSWORD_REQUIREMENTS = json.load(f)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -63,6 +63,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cyberProject.context_processor.isauth_context_processor'
             ],
         },
     },
