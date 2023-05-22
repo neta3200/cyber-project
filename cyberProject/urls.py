@@ -20,8 +20,11 @@ from django.urls import path
 from projectLogic import views"""
 from users import views
 from customers import views
-from users.views import loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, user_change_pwd_view, user_changed_pwd_successfully_view, logoutReq
+from users.views import (loginPageReq, registerPageReq, aboutPageReq, forgetPageReq, logoutReq,
+                        user_change_pwd_view, user_changed_pwd_successfully_view, sendEmail, 
+                        sha1_code_verification )
 from customers.views import customersPageReq
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,8 +33,10 @@ urlpatterns = [
     path('register/', registerPageReq),
     path('about/', aboutPageReq),
     path('forget/', forgetPageReq),
-    path('change-pwd/', user_change_pwd_view),
-    path('change-pwd/done', user_changed_pwd_successfully_view),
     path('customers/', customersPageReq),
     path('logout/', logoutReq),
+    path('forget/sendEmail', sendEmail),
+    path('change-pwd/', user_change_pwd_view),
+    path('change-pwd/done', user_changed_pwd_successfully_view),
+    
  ]
