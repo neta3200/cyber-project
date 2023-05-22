@@ -33,6 +33,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 User = get_user_model()
 
+
 def loginPageReq(request):
     if request.method == 'GET':
         form = LoginForm()
@@ -62,7 +63,7 @@ def logoutReq(request):
     messages.success(request,f'You have been logged out.')
     return redirect('/login')
 
-"""
+""""""
 def registerPageReq(request):
     newUser = None
     users= None
@@ -136,7 +137,7 @@ def registerPageReq(request):
         'users': users,
         }
     return render(request, template_name="../templates/register.html", context=context)
-"""
+
 
 def user_create_view(request):
     users = None
@@ -205,9 +206,10 @@ def user_create_view(request):
     form = UserForm()
     context = {
         'form': form,
-        'page_name': 'register',
+        'pageName': 'register',
         'users': users,
         'user_new': user_new,
+        'pageTitle': 'Register',
     }
     return render(request, "../templates/register.html", context)
 
@@ -341,12 +343,13 @@ def sha1_code_verification(request):
             user_in_DB.resetCode = None
             user_in_DB.save() 
             #return redirect('./sendEmail')
+            response = redirect('/change-pwd')
             context = {
                 'page_name': 'changePass',
                 'pageTitle': 'Change password',
             }
-            return render(request, "../templates/user_change_pwd.html", context = context)
-
+            #return render(request, "../templates/user_change_pwd.html", context = context)
+            return response
         else:
             messages.error(request, "You entered an incorrect code, please try again")
 

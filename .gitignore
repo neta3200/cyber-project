@@ -1,3 +1,8 @@
 # GIT IGNORE
 .venv
-.db.sqlite3
+db.sqlite3
+users/migrations/*
+users/__pycache__/*
+customers/migrations/*
+customers/__pycache__/*
+cyberProject/__pycache__/*
