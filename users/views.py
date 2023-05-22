@@ -1,4 +1,4 @@
-from .forms import UserForm, LoginForm, ChangePwdForm, ForgotPasswordForm, Sha1VerificationCodeForm
+from .forms import RegisterForm, LoginForm, ChangePwdForm, ForgotPasswordForm, Sha1VerificationCodeForm
 from .models import UsersData 
 
 from django.contrib import messages
@@ -63,85 +63,9 @@ def logoutReq(request):
     messages.success(request,f'You have been logged out.')
     return redirect('/login')
 
-""""""
 def registerPageReq(request):
-    newUser = None
-    users= None
-    if request.method == 'GET':
-        if(request.GET):
-            data = request.GET or None
-            username = data['username']
-            user = UsersData.objects.raw(f"SELECT * FROM users_usersdata WHERE username = '%s'" % (username))
-            if(len(list(user)) != 0 ):
-                messages.info(request, "Are you sure you don't have a user?")
-                if(len(list(user)) > 1 ):
-                    users = list(user)
-            elif (passwordVaildation(data['password1']) == False):
-                messages.info(request, "The password does not meet the requirements try again")
-            elif(data['password1'] != data['password2']):
-                messages.info(request, "The passwords do not match try again")
-            else:
-                user = UsersData.objects.create_user(
-                    data['username'],
-                    data['email'],
-                    data['password1']
-                )
-                user.first_name = data['first_name']
-                user.last_name = data['last_name']
-                UserLastPasswords = [
-                    {
-                        "passwords": [data['password1']]
-                    }
-                ]
-                user.lastPasswords = json.dumps(UserLastPasswords)
-                user_new = user
-                user.save()
-    else:
-        form = RegisterForm(request.POST or None)
-        if form.is_valid():
-            context = { 'form' : form }
-            if (passwordVaildation(form.cleaned_data['password1']) == False):
-                messages.info(request, "The password does not meet the requirements try again")
-                return render(request, '../templates/register.html', context)
-            if(form.cleaned_data['password1'] != form.cleaned_data['password2']):
-                messages.info(request, "The passwords do not match try again")
-                return render(request, '../templates/register.html', context)
-            checkUsername = form.cleaned_data['username']
-            user = UsersData.objects.raw(f"SELECT * FROM users_usersdata WHERE username = '%s'" % (checkUsername))
-            if(len(list(user))!= 0):
-                messages.info(request, "The user name is not valid")
-                return render(request, '../templates/register.html', context)
-            user = UsersData.objects.create_user(
-                    form.cleaned_data['username'],
-                    form.cleaned_data['email'],
-                    form.cleaned_data['password1']
-                    )
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name = form.cleaned_data['last_name']
-            passwordsObj = [
-                {
-                    "passwords": [form.cleaned_data['password']]
-                }
-            ]
-            user.lastPasswords = json.dumps(passwordsObj)
-            user.save()
-            newUser = user
-            #messages.success(request, 'You have singed up successfully.')
-            #login(request, user)
-    form = RegisterForm()
-    context = {
-        'form': form,
-        'pageName': 'register',
-        'pageTitle': 'Register',
-        'newUser': newUser,
-        'users': users,
-        }
-    return render(request, template_name="../templates/register.html", context=context)
-
-
-def user_create_view(request):
     users = None
-    user_new = None
+    newUser= None
     if request.method == 'GET':
         if(request.GET):
             data = request.GET or None
@@ -151,10 +75,10 @@ def user_create_view(request):
                 messages.info(request, "Are you sure you do not have an account?")
                 if (len(list(user)) > 1):
                     users = list(user)
-            elif (not is_valid_password(data['password'])):
-                messages.info(request, "The password you entered does not meet the requirements, please try again.")
-            elif not is_difference_password(data['password'], data['password_repeat']):
-                messages.info(request, "The passwords do not match, please try again.")
+            elif (not passwordVaildation(data['password'])):
+                messages.info(request, "The password you entered does not meet the password requirements, try again.")
+            elif not euqalPasswords(data['password'], data['repeat_password']):
+                messages.info(request, "The passwords do not match, try again.")
             else:
                 user = UsersData.objects.create_user(
                     data['username'],
@@ -163,29 +87,29 @@ def user_create_view(request):
                 )
                 user.first_name = data['first_name']
                 user.last_name = data['last_name']
-                user.phone_number = data['_number']
-                passwordsObj = [
+                user.id_number = data['id_number']
+                pwObject = [
                     {
                         "passwords": [data['password']]
                     }
                 ]
-                user.lastPasswords = json.dumps(passwordsObj)
-                user_new = user
+                user.lastPasswords = json.dumps(pwObject)
+                newUser = user
                 user.save()
     else:
-        form = UserForm(request.POST or None)
+        form = RegisterForm(request.POST or None)
         if form.is_valid():
             context = { 'form' : form }
-            if not is_valid_password(form.cleaned_data['password']):
-                messages.info(request, "The password you entered does not meet the requirements, please try again.")
+            if not passwordVaildation(form.cleaned_data['password']):
+                messages.info(request, "The password you entered does not meet the password requirements, try again.")
                 return render(request, '../templates/register.html', context)
-            if not is_difference_password(form.cleaned_data['password'], form.cleaned_data['password_repeat']):
-                messages.info(request, "The passwords do not match, please try again.")
+            if not euqalPasswords(form.cleaned_data['password'], form.cleaned_data['repeat_password']):
+                messages.info(request, "The passwords do not match, try again.")
                 return render(request, '../templates/register.html', context)
             username_check = form.cleaned_data['username']
             user = UsersData.objects.raw(f"SELECT * FROM users_usersdata WHERE username = '%s'" % (username_check))
             if (len(list(user)) != 0):
-                messages.info(request, "The user name is not valid")
+                messages.info(request, "The username is not valid")
                 return render(request, '../templates/register.html', context)
             user = UsersData.objects.create_user(
                         form.cleaned_data['username'],
@@ -194,36 +118,24 @@ def user_create_view(request):
                     )
             user.first_name = form.cleaned_data['first_name']
             user.last_name = form.cleaned_data['last_name']
-            user.phone_number = form.cleaned_data['phone_number']
-            passwordsObj = [
+            user.id_number = form.cleaned_data['id_number']
+            pwObject = [
                 {
                     "passwords": [form.cleaned_data['password']]
                 }
             ]
-            user.lastPasswords = json.dumps(passwordsObj)
+            user.lastPasswords = json.dumps(pwObject)
             user.save()
-            user_new = user
-    form = UserForm()
+            newUser = user
+    form = RegisterForm()
     context = {
         'form': form,
         'pageName': 'register',
         'users': users,
-        'user_new': user_new,
+        'newUser': newUser,
         'pageTitle': 'Register',
     }
     return render(request, "../templates/register.html", context)
-
-
-
-
-
-
-
-
-
-
-
-
 
 def aboutPageReq(request):
     context = {
@@ -231,8 +143,6 @@ def aboutPageReq(request):
         'pageTitle': 'About',
         }
     return render(request, template_name="../templates/about.html", context=context)
-
-
 
 def forgetPageReq(request):
     if request.method == 'GET':
@@ -373,16 +283,6 @@ def sha1_code_verification(request):
     }
     return render(request, "verification-key-password.html", context = context)
 
-
-
-
-
-
-
-
-
-
-
 def user_change_pwd_view(request):
 
     form = ChangePwdForm(request.POST or None)
@@ -392,10 +292,10 @@ def user_change_pwd_view(request):
         'pageTitle': 'Change Password',
     }
     if form.is_valid():
-        if not is_difference_password(form.cleaned_data['new_password'], form.cleaned_data['verify_password']):
+        if not euqalPasswords(form.cleaned_data['new_password'], form.cleaned_data['verify_password']):
             messages.info(request, "The passwords do not match, please try again.")
             return render(request, "../templates/user_change_pwd.html", context = context)
-        if not is_valid_password(form.cleaned_data['new_password']):
+        if not euqalPasswords(form.cleaned_data['new_password']):
             messages.info(request, "The password you entered does not meet the requirements, please try again.")
             return render(request, "../templates/user_change_pwd.html", context = context)
         u = UsersData.objects.get(username = request.user)
@@ -418,8 +318,8 @@ def user_change_pwd_view(request):
             return render(request, "../templates/user_change_pwd.html", context = context)
     return render(request, "../templates/user_change_pwd.html", context = context)
 
-def is_difference_password(password, password_repeat):
-    return password == password_repeat
+def euqalPasswords(password, repeat_password):
+    return password == repeat_password
 
 def passwordVaildation(password):
     dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -445,30 +345,6 @@ def passwordVaildation(password):
     if requiredmentsData['password']['minAlphaLetters'] > letters:
         return False
     if requiredmentsData['password']['minLenSpeical'] > special:
-        return False
-    return True
-
-def is_valid_password(password):
-    count_digit = sum(c.isdigit() for c in password)
-    count_alpha = sum(c.isalpha() for c in password)
-    count_lower = sum(c.islower() for c in password)
-    count_upper = sum(c.isupper() for c in password)
-    count_special_char = 0
-    req = load_user_create_requierments("cyberProject/passwordRequirements.json")
-    for special_char in req['password']['specialCharacters']:
-        count_special_char += password.count(special_char)
-
-    if req['minLen'] == len(password):
-        return False
-    if count_digit < req['password']['minLenDigits']:
-        return False
-    if count_alpha < req['password']['minAlphaLetters']:
-        return False
-    if count_lower < req['password']['minLenLowerLetter']:
-        return False
-    if count_upper < req['password']['minLenUpperLetter']:
-        return False
-    if count_special_char < req['password']['minLenSpeical']:
         return False
     return True
 

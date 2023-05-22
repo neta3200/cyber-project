@@ -4,6 +4,19 @@ body {background: #fff}
 
 .row {width: 960px}
 
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .page_wrap {margin: 25px auto 25px; border-radius: 3px; background: #FFF}
 
 .header_nav {background: #fff; padding: 10px 0 2px; margin-bottom: 25px; box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4); z-index: 999}
