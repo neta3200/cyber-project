@@ -1,15 +1,11 @@
 from django import forms
  
-
-#from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import PasswordResetView
-User = get_user_model()
-
-
-
 from django.contrib.auth.forms import UserCreationForm
+
+User = get_user_model()
 
 class UserForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}))
@@ -45,9 +41,33 @@ class ResetPwdForm(forms.Form):
 
 
 class RegisterForm(UserCreationForm):
+    #first_name = forms.CharField(max_length=30)
+    #last_name = forms.CharField(max_length=30)
+    #id_number = forms.IntegerField() # id - 10 digits?
+
+    def validate_only_letters(value):
+        if not value.isalpha():
+            raise forms.ValidationError(f'should only contain letters.')
+
+    first_name = forms.CharField(
+        max_length=30,
+        validators=[validate_only_letters]
+        )
+
+    last_name = forms.CharField(
+        max_length=30,
+        validators=[validate_only_letters]
+        )
+
+    def validate_id_number(value):
+        if len(str(value)) != 9:
+            raise forms.ValidationError('The ID number must be a 9-digit number.')
+    id_number = forms.IntegerField(validators=[validate_id_number])
+
     class Meta:
         model=User
-        fields = ['username','email','password1','password2']
+        fields = ['username','first_name','last_name','id_number','email','password1','password2']
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=65)

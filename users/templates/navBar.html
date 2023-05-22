@@ -6,7 +6,7 @@
           {%if request.user.is_authenticated %}
             <li {% if pageName == "customers" %} class="active" {% endif %}><a href="/customers">Customers</a></li>
             <li {% if pageName == "change_pwd" %} class="active" {% endif %}><a href="/change-pwd">Change Password</a></li>
-            <li {% if pageName == "forget" %} class="active" {% endif %}><a href="/logout">Logout</a></li>
+            <li {% if pageName == "logout" %} class="active" {% endif %}><a href="/logout">Logout</a></li>
             <li {% if pageName == "about" %} class="active" {% endif %}><a href="/about">About</a></li>
           {%else%}
             <li {% if pageName == "login" %} class="active" {% endif %}><a href="/login">Login</a></li>

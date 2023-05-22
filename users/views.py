@@ -4,15 +4,21 @@ from .models import UsersData
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.http import HttpResponseRedirect
 import hashlib, random, smtplib, ssl
 from django.conf import settings
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from django.core.mail import send_mail
+from django.utils.html import strip_tags
 from django.template.loader import render_to_string
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth import views as auth_views
+from django.contrib.auth import get_user_model
+from .models import UsersData
 from django.contrib.auth.views import (
     LogoutView, 
     PasswordResetView, 
@@ -21,8 +27,11 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView
 )
 
-import hashlib, binascii, os, json
+
+import hashlib, binascii, os, json, random
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+User = get_user_model()
 
 def loginPageReq(request):
     if request.method == 'GET':
