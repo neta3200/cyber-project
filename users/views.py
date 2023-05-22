@@ -250,8 +250,12 @@ def sha1_code_verification(request):
             #the actual code in the DB
             print("user_in_DB.resetCode: ",user_in_DB.resetCode)
             print("user_in_DB: ",user_in_DB)
+            user = UsersData.objects.filter(resetCode = user_reset_code_entered)
+            login(request,user[0] ,
+                      backend='django.contrib.auth.backends.ModelBackend')
             user_in_DB.resetCode = None
             user_in_DB.save() 
+            
             #return redirect('./sendEmail')
             response = redirect('/change-pwd')
             context = {
