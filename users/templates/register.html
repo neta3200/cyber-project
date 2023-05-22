@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="row">
-	<div class="column">
+	<div class="column1">
 		<div id="secure-form-register">
 			<form method='POST' style="width:50%;">
 				{{ form.as_p }} {% csrf_token %}
@@ -27,7 +27,7 @@
 			{% endif %}
 		</div> -->
 	</div>
-	<div class="column">
+	<div class="column2">
 		{% include 'password-policy.html' %}
 	</div>
 </div>
