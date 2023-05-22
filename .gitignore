@@ -6,4 +6,5 @@ users/__pycache__/*
 customers/migrations/*
 customers/__pycache__/*
 cyberProject/__pycache__/*
+users/__pycache__/views.cpython-311.pyc
 ###
