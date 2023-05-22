@@ -3,8 +3,8 @@
 {% block content %}
 
 <form method='GET'> 
-  <p style="display:inline;"> First Name: </p><input type='text' name='fname' placeholder="Customer First Name" required/> <br><br>
-  <p style="display:inline;"> Last Name: </p><input type='text' name='lname' placeholder="Customer Last Name" required/> <br><br>
+  <p style="display:inline;"> First Name: </p><input type='text' name='firstName' placeholder="Customer First Name" required/> <br><br>
+  <p style="display:inline;"> Last Name: </p><input type='text' name='lastName' placeholder="Customer Last Name" required/> <br><br>
   <p style="display:inline;"> City: </p><input type='text' name='city' placeholder="Customer Last Name" required/> <br><br>
   <p style="display:inline;"> Address: </p><input type='text' name='address' placeholder="Customer Last Name" required/> <br><br>
   <p style="display:inline;"> Internet Speed:</p><input type='text' name='speed' placeholder="Customer Last Name" required/> <br><br>
@@ -13,15 +13,15 @@
 
 
 
-<h3> Last Customer Added:</h3>
-{% for customer in c %}
+<h3> Customers List:</h3>
+{% for customer in customers %}
 {% if isSecure == 'true' %}
-<h3>{{ customer.name }} {{ customer.lastName }} </h3>
+<h3>{{ customer.firstName }} {{ customer.lastName }} {{ customer.city }}</h3>
 {% else %}
-<h3>{{ customer.name | safe}} {{ customer.lastName | safe}} </h3>
+<h3>{{ customer.firstName | safe}} {{ customer.lastName | safe}} {{ customer.city | safe}}</h3>
 {% endif %}
 {% empty %}
-<h3>no customers </h3>
+<h3>no customers added yet</h3>
 {% endfor %}
 
 
