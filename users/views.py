@@ -363,12 +363,8 @@ def user_changed_pwd_successfully_view(request):
 
 
 
-def redirect_to_login_view(request, *args, **kwargs):
-    # result = redirect('/login')
-    # result.set_cookie('attemps', 0) 
-    # result.set_cookie('secureMod', "true")
-    # result.set_cookie('isAuthenticated', "false")
-    # return result
+def login_connect_cookie(request, *args, **kwargs):
+
     return redirect('/login')\
         .set_cookie('attempts', 0)\
             .set_cookie('secureMod', 'true')\
