@@ -2,16 +2,6 @@
 
 {% block content %}
 
-<!-- <form method='GET'> 
-  <p style="display:inline;"> First Name: </p><input type='text' name='firstName' placeholder="Customer First Name" required/> <br><br>
-  <p style="display:inline;"> Last Name: </p><input type='text' name='lastName' placeholder="Customer Last Name" required/> <br><br>
-  <p style="display:inline;"> City: </p><input type='text' name='city' placeholder="Customer Last Name" required/> <br><br>
-  <p style="display:inline;"> Address: </p><input type='text' name='address' placeholder="Customer Last Name" required/> <br><br>
-  <p style="display:inline;"> Internet Speed:</p><input type='text' name='speed' placeholder="Customer Last Name" required/> <br><br>
-<input class="button large secondary" type='submit' value='Add'/>
-</form> -->
-
-
 <div id="insecure-form"> 
   <form method='GET'> 
     <p style="display:inline;"> First Name: </p><input type='text' name='firstName' placeholder="Customer First Name" required/> <br><br>
@@ -23,20 +13,10 @@
   </form>
   </div>
   
-  <!-- <div id="secure-form"> 
-  <form method='POST'> {% csrf_token %}
-    <p style="display:inline;"> First Name: </p><input type='text' name='firstName' placeholder="Customer First Name" required/> <br><br>
-    <p style="display:inline;"> Last Name: </p><input type='text' name='lastName' placeholder="Customer Last Name" required/> <br><br>
-    <p style="display:inline;"> City: </p><input type='text' name='city' placeholder="Customer Last Name" required/> <br><br>
-    <p style="display:inline;"> Address: </p><input type='text' name='address' placeholder="Customer Last Name" required/> <br><br>
-    <p style="display:inline;"> Internet Speed:</p><input type='text' name='speed' placeholder="Customer Last Name" required/> <br><br>
-    <input class="button large secondary" type='submit' value='Add'/>
-  </form>
-  </div> -->
 
 <h3> Customers List:</h3>
 {% for customer in customers %}
-{% if secureMod == 'true' %}
+{% if isSecure == 'true' %}
 <h3>{{ customer.firstName }} {{ customer.lastName }} {{ customer.city }}</h3>
 {% else %}
 <h3>{{ customer.firstName | safe}} {{ customer.lastName | safe}} {{ customer.city | safe}}</h3>
