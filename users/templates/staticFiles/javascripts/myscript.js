@@ -35,7 +35,7 @@ function setCookie(cname, cvalue, exdays = 2) {
   function toggle_clicked(toggle_button){
     let toggle = document.getElementById("toggle-button");
     if (toggle.checked){
-        setCookie('isSecure', 'true')
+        setCookie('secureMod', 'true')
         secure_design();
         secure_clients_page();
         secure_login_page();
@@ -46,7 +46,7 @@ function setCookie(cname, cvalue, exdays = 2) {
         
     } else {
         console.log("toggle set to insecure!!");
-        setCookie('isSecure', 'false');
+        setCookie('secureMod', 'false');
         insecure_design();
         insecure_clients_page();
         insecure_login_page();
@@ -56,8 +56,8 @@ function setCookie(cname, cvalue, exdays = 2) {
 };
 
 function update_toggle(){
-    console.log(getCookie('isSecure'))
-    if (getCookie('isSecure') == 'true'){
+    console.log(getCookie('secureMod'))
+    if (getCookie('secureMod') == 'true'){
         document.getElementById("toggle-button").setAttribute("checked", "checked");
         secure_design();
         secure_clients_page();

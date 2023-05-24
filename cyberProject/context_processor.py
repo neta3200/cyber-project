@@ -1,8 +1,14 @@
+#populate the context when a template is rendered with a request
+
 from .settings import PASSWORD_REQUIREMENTS
 
+
 def isauth_context_processor(request):
-    return {
+
+    context_processor=    {
+        'userName': request.COOKIES.get('userName'),
         'isAuthenticated': request.COOKIES.get('isAuthenticated'),
         'pass_policy': PASSWORD_REQUIREMENTS,
-        'userName': request.COOKIES.get('userName'),
     }
+
+    return context_processor
