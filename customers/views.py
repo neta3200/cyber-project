@@ -134,3 +134,6 @@ def customersPageReq(request):
         'customers': result
     }
     return render(request, template_name="../templates/customers.html", context=context)
+
+
+#fds vfdsvdsvdavdfwe es d
