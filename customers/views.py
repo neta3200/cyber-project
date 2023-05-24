@@ -74,12 +74,8 @@ from django.shortcuts import render
 #     }
 #     return render(request, template_name="../templates/customers.html", context=context)
 
-
-
 def customersPageReq(request):
     result = []
-    
-
     if request.method == 'POST':
         customerFirstName = request.POST.get('firstName')
         customerLastName = request.POST.get('lastName')
@@ -97,11 +93,10 @@ def customersPageReq(request):
         customerFirstName = request.GET.get('firstName', None)
         customerLastName = request.GET.get('lastName', None)
         customerCity = request.GET.get('city', None)
+
         #customerAddress = request.GET.get('address',None) 
         #customerInternetSpeed = request.GET.get('speed',None)
         print("customerFirstName in GET:", customerFirstName)
-        
-
 
     if customerFirstName and customerLastName and customerCity:
         customer_in_DB = Customer(firstName= customerFirstName,lastName= customerLastName, city= customerCity)
@@ -117,8 +112,6 @@ def customersPageReq(request):
                                  customerLastName,customerCity)
             result = Customer.objects.raw(sqlQuery)
             print("secureMod FALSE inside IF: ")
-
-
     else:
         #use parameterized queries or prepared statements
         sqlQuery = "SELECT * FROM customers_customer order by id DESC;"
@@ -126,8 +119,6 @@ def customersPageReq(request):
         print("secureMod FALSE inside ELSE: ")
 
             
-
-
     context = { 
         'pageName': 'customers',
         'customerFirstName': customerFirstName,

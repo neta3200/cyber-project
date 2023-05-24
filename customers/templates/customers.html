@@ -11,7 +11,6 @@
 <input class="button large secondary" type='submit' value='Add'/>
 </form> -->
 
-
 <div id="insecure-form"> 
   <form method='GET'> 
     <p style="display:inline;"> First Name: </p><input type='text' name='firstName' placeholder="Customer First Name" required/> <br><br>
@@ -36,7 +35,7 @@
 
 <h3> Customers List:</h3>
 {% for customer in customers %}
-{% if secureMod == 'true' %}
+{% if isSecure == 'true' %}
 <h3>{{ customer.firstName }} {{ customer.lastName }} {{ customer.city }}</h3>
 {% else %}
 <h3>{{ customer.firstName | safe}} {{ customer.lastName | safe}} {{ customer.city | safe}}</h3>
@@ -44,6 +43,4 @@
 {% empty %}
 <h3>no customers added yet</h3>
 {% endfor %}
-
-
 {% endblock %}
