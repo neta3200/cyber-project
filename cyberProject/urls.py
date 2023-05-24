@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from users import views
 from customers import views
-from users.views import (loginPageReq, aboutPageReq, forgetPageReq, logoutReq, registerPageReq,
+from users.views import (loginPageReq, aboutPageReq, forgetPageReq, logoutReq, registerPageReq,login_connect_cookie,
                         user_change_pwd_view, user_changed_pwd_successfully_view, sendEmail, 
                         sha1_code_verification )  #registerPageReq
 from customers.views import customersPageReq
@@ -26,7 +26,7 @@ from customers.views import customersPageReq
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', loginPageReq),
+    path('', login_connect_cookie),
     path('login/', loginPageReq),
     path('register/', registerPageReq),
     path('about/', aboutPageReq),

@@ -2,16 +2,29 @@
 
 {% block content %}
 
-<form method='GET'> 
+<<<<<<< HEAD
+=======
+<!-- <form method='GET'> 
   <p style="display:inline;"> First Name: </p><input type='text' name='firstName' placeholder="Customer First Name" required/> <br><br>
   <p style="display:inline;"> Last Name: </p><input type='text' name='lastName' placeholder="Customer Last Name" required/> <br><br>
   <p style="display:inline;"> City: </p><input type='text' name='city' placeholder="Customer Last Name" required/> <br><br>
   <p style="display:inline;"> Address: </p><input type='text' name='address' placeholder="Customer Last Name" required/> <br><br>
   <p style="display:inline;"> Internet Speed:</p><input type='text' name='speed' placeholder="Customer Last Name" required/> <br><br>
 <input class="button large secondary" type='submit' value='Add'/>
-</form>
+</form> -->
 
-
+>>>>>>> 531cc99900a1a28a4be9a76007add63a512c438c
+<div id="insecure-form"> 
+  <form method='GET'> 
+    <p style="display:inline;"> First Name: </p><input type='text' name='firstName' placeholder="Customer First Name" required/> <br><br>
+    <p style="display:inline;"> Last Name: </p><input type='text' name='lastName' placeholder="Customer Last Name" required/> <br><br>
+    <p style="display:inline;"> City: </p><input type='text' name='city' placeholder="Customer Last Name" required/> <br><br>
+    <!-- <p style="display:inline;"> Address: </p><input type='text' name='address' placeholder="Customer Last Name" required/> <br><br>
+    <p style="display:inline;"> Internet Speed:</p><input type='text' name='speed' placeholder="Customer Last Name" required/> <br><br> -->
+    <input class="button large secondary" type='submit' value='Add'/>
+  </form>
+  </div>
+  
 
 <h3> Customers List:</h3>
 {% for customer in customers %}
@@ -23,6 +36,4 @@
 {% empty %}
 <h3>no customers added yet</h3>
 {% endfor %}
-
-
-  {% endblock %}
+{% endblock %}

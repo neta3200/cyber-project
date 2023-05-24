@@ -360,3 +360,17 @@ def user_changed_pwd_successfully_view(request):
         'page_name': 'done',
     }
     return render(request, '../templates/password-reset-done.html', context = context)    
+
+
+
+def login_connect_cookie(request, *args, **kwargs):
+
+    # return redirect('/login')\
+    #     .set_cookie('attempts', 0)\
+    #         .set_cookie('isSecure', 'true')\
+    #             .set_cookie('isAuthenticated', 'false')
+    response = redirect('/login')
+    response.set_cookie('isSecure', "false")
+    response.set_cookie('attemps_number', 0)
+    response.set_cookie('isAuthenticated', "false")
+    return response
