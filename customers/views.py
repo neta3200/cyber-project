@@ -2,6 +2,7 @@
 from .models import Customer
 from django.contrib import messages
 from django.shortcuts import render
+#from django.http import Http404
 
 
 # def customersPageReq(request):
@@ -83,11 +84,12 @@ def customersPageReq(request):
         customerFirstName = request.POST.get('firstName')
         customerLastName = request.POST.get('lastName')
         customerCity = request.POST.get('city')
-        customerAddress = request.POST.get('address') 
-        customerInternetSpeed = request.POST.get('speed')
-        if not (customerFirstName.replace(' ', '').isalpha()) or not (customerLastName.replace(' ', '').isalpha()): 
-            messages.error(request, "not found.")
+        #customerAddress = request.POST.get('address') 
+        #customerInternetSpeed = request.POST.get('speed')
+        #secure STORED XSS
+        if not (customerFirstName.replace(' ', '').isalpha()) or not (customerLastName.replace(' ', '').isalpha()) or not (customerLastName.replace(' ', '').isalpha()): 
             print("customerFirstName in POST replace:", customerFirstName)
+            return render (request, 'history-error.html')
 
         print("customerFirstName in POST:", customerFirstName)
         
@@ -95,6 +97,8 @@ def customersPageReq(request):
         customerFirstName = request.GET.get('firstName', None)
         customerLastName = request.GET.get('lastName', None)
         customerCity = request.GET.get('city', None)
+        #customerAddress = request.GET.get('address',None) 
+        #customerInternetSpeed = request.GET.get('speed',None)
         print("customerFirstName in GET:", customerFirstName)
         
 
@@ -103,16 +107,22 @@ def customersPageReq(request):
         customer_in_DB = Customer(firstName= customerFirstName,lastName= customerLastName, city= customerCity)
         customer_in_DB.save()
         if request.COOKIES['secureMod'] == 'true':
-            get_last_client_query = "SELECT * FROM customers_customer order by id DESC LIMIT 1;"
-            result = Customer.objects.raw(get_last_client_query)
+            sqlQuery = "SELECT * FROM customers_customer order by id DESC LIMIT 1;"
+            result = Customer.objects.raw(sqlQuery)
+            print("secureMod TRUE inside IF: ")
         else:
-            get_client_query = f"SELECT * FROM customers_customer WHERE name = '%s'  AND lastName = '%s';" % (customerFirstName,
+            #SQL vulnerability
+            sqlQuery = f"SELECT * FROM customers_customer WHERE firstName = '%s' AND lastName = '%s' AND city = '%s';" % (customerFirstName,
                                  customerLastName,customerCity)
-            result = Customer.objects.raw(get_client_query)
+            result = Customer.objects.raw(sqlQuery, [customerFirstName, customerLastName, customerCity])
+            print("secureMod FALSE inside IF: ")
+
 
     else:
-        get_last_client_query = "SELECT * FROM customers_customer order by id DESC LIMIT 1;"
-        result = Customer.objects.raw(get_last_client_query)
+        sqlQuery = "SELECT * FROM customers_customer order by id DESC LIMIT 1;"
+        result = Customer.objects.raw(sqlQuery)
+        print("secureMod FALSE inside ELSE: ")
+
             
 
 

@@ -370,7 +370,7 @@ def login_connect_cookie(request, *args, **kwargs):
     #         .set_cookie('secureMod', 'true')\
     #             .set_cookie('isAuthenticated', 'false')
     response = redirect('/login')
-    response.set_cookie('secureMod', "true")
+    response.set_cookie('secureMod', "false")
     response.set_cookie('attemps_number', 0)
     response.set_cookie('isAuthenticated', "false")
     return response
