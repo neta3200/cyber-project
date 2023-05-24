@@ -107,19 +107,21 @@ def customersPageReq(request):
         customer_in_DB = Customer(firstName= customerFirstName,lastName= customerLastName, city= customerCity)
         customer_in_DB.save()
         if request.COOKIES['secureMod'] == 'true':
-            sqlQuery = "SELECT * FROM customers_customer order by id DESC LIMIT 1;"
+            sqlQuery = "SELECT * FROM customers_customer order by id DESC;"
             result = Customer.objects.raw(sqlQuery)
             print("secureMod TRUE inside IF: ")
         else:
             #SQL vulnerability
+            #use in username: '' lastname: ' we got the DB SQLITE
             sqlQuery = f"SELECT * FROM customers_customer WHERE firstName = '%s' AND lastName = '%s' AND city = '%s';" % (customerFirstName,
                                  customerLastName,customerCity)
-            result = Customer.objects.raw(sqlQuery, [customerFirstName, customerLastName, customerCity])
+            result = Customer.objects.raw(sqlQuery)
             print("secureMod FALSE inside IF: ")
 
 
     else:
-        sqlQuery = "SELECT * FROM customers_customer order by id DESC LIMIT 1;"
+        #use parameterized queries or prepared statements
+        sqlQuery = "SELECT * FROM customers_customer order by id DESC;"
         result = Customer.objects.raw(sqlQuery)
         print("secureMod FALSE inside ELSE: ")
 
