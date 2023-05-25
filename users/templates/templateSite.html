@@ -10,14 +10,13 @@
 <link rel="stylesheet" href='{% static "stylesheets/app.css" %}'>
 <link rel="stylesheet" href='{% static "stylesheets/mystyle.css" %}'>
 <script type="text/javascript" src='{% static "javascripts/modernizr.foundation.js" %}' defer></script>
-<script type="text/javascript" src='{% static "javascripts/myscript.js" %}' defer></script>
 
 <!--<script src="javascripts/modernizr.foundation.js"></script> -->
 <!-- Google fonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Playfair+Display:400italic' rel='stylesheet' type='text/css' /> 
 </head>
 <body>
-
+    <script type="text/javascript" src='{% static "javascripts/myscript.js" %}' defer></script>
 {%if request.user.is_authenticated %}
   <div class="row"><a href="/customers"><img src='{% static "images/logo.png" %}' alt="" class="header_logo"></a> </div>
 {%else%}

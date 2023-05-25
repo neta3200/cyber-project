@@ -58,6 +58,86 @@ def loginPageReq(request):
         }
     return render(request, template_name="../templates/login.html", context=context)
 
+
+def login_request(request):
+
+    users = None
+    badPass = None
+    badCred = None
+    tooManyAttemps = None
+    attemps_number = int(request.COOKIES['attemps_number'])
+
+    if request.method == 'GET':
+        username = request.GET.get('username', None)
+        password = request.GET.get('password', None)
+
+        if username and password:
+            user = UsersData.objects.raw(f"SELECT * FROM users_usersdata WHERE username = '%s'" % (username))
+
+            if (len(list(user)) == 1):
+                matchcheck = check_password(password, user[0].password)
+                if (matchcheck):
+                    user = authenticate(username=username, password=password)
+                    login(request, user,
+                      backend='django.contrib.auth.backends.ModelBackend')
+                    response = redirect('/customers')
+                    response.set_cookie("isAuthenticated", "true")
+                    response.set_cookie('attemps_number', 0)
+                    response.set_cookie("userName", username)
+                    return response
+                else:
+                    # password not matched
+                    attemps_number = attemps_number + 1
+                    badPass = True
+
+            else: 
+                # sqli 
+                users = list(user) 
+                attemps_number = attemps_number + 1
+
+    # The request method 'POST' indicates
+    # that the form was submitted
+    elif request.method == "POST":
+        # Create a form instance with the submitted data
+        form = AuthenticationForm(request, data=request.POST)
+        # Validate the form
+        if form.is_valid():
+            # If the form is valid, get the user credenetials
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            # Authentication of the user
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user,
+                      backend='django.contrib.auth.backends.ModelBackend')
+                
+                # Redirect to homepage
+                response = redirect('/customers')
+                response.set_cookie("isAuthenticated", "true")
+                response.set_cookie("userName", username)
+                response.set_cookie('attemps_number', 0)
+                return response
+            else:
+                attemps_number = attemps_number + 1
+        else:
+            attemps_number = attemps_number + 1
+    form = AuthenticationForm()
+    req = load_user_create_requierments("cyberProject/passwordRequirements.json")
+    if(attemps_number >= req['loginAttempsLimitation']):
+        tooManyAttemps = True
+    response =  render(request=request, template_name="../templates/login.html",
+     context={
+         "login_form": form,
+         "pageName": "login",
+         "badPass": badPass,
+         "pageTitle": 'Login',
+         "users": users,
+         "tooManyAttemps": tooManyAttemps,
+        })
+    response.set_cookie('attemps_number', attemps_number)
+    return response
+
+
 def logoutReq(request):
     logout(request)
     messages.success(request,f'You have been logged out.')
